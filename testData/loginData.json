@@ -1,0 +1,8 @@
+[
+  {
+    "url": "https://www.demoblaze.com/",
+    "username": "a",
+    "password": "b@123",
+    "expectedText": "Welcome"
+  }
+]
