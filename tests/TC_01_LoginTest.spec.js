@@ -12,5 +12,5 @@ test("Login Test", async ({ page }) => {
   const data = loginData[0];
 
   await loginPage.gotoLoginPage(data.url);
-  await loginPage.login(data.username, data.password);
+  await loginPage.login(data.usernames, data.password);
 });
