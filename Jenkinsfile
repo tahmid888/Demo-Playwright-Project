@@ -29,6 +29,8 @@ pipeline {
                 reportFiles: 'index.html',
                 reportName: 'Playwright Report'
             ])
+            archiveArtifacts artifacts: 'test-results/**/*', 
+                             allowEmptyArchive: true
         }
         success {
             echo 'Tests passed!'
