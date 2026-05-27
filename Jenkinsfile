@@ -2,17 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-        stage('Install') {
+
+        stage('Install Dependencies') {
             steps {
                 bat 'npm install'
             }
         }
-        stage('Test') {
+
+        stage('Install Playwright Browsers') {
+            steps {
+                bat 'npx playwright install'
+            }
+        }
+
+        stage('Run Tests') {
             steps {
                 bat 'npx playwright test --reporter=html'
             }
@@ -20,6 +23,7 @@ pipeline {
     }
 
     post {
+
         always {
             publishHTML(target: [
                 allowMissing: false,
@@ -29,14 +33,18 @@ pipeline {
                 reportFiles: 'index.html',
                 reportName: 'Playwright Report'
             ])
-            archiveArtifacts artifacts: 'test-results/**/*', 
+
+            archiveArtifacts artifacts: 'test-results/**/*',
                              allowEmptyArchive: true
         }
+
         success {
             echo 'Tests passed!'
         }
+
         failure {
             echo 'Tests failed!'
+
             mail to: 'tahmidulslash@gmail.com',
             subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
             body: """
@@ -54,7 +62,7 @@ Build URL     : ${env.BUILD_URL}
 Please check the logs and fix the issue.
 
 - Jenkins
-         """
-}
+"""
+        }
     }
 }
