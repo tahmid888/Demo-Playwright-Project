@@ -36,10 +36,23 @@ pipeline {
             echo 'Tests passed!'
         }
         failure {
-            echo 'Tests failed!'
-            mail to: 'tahmidulslash@gmail.com',
-            subject: "Build Failed: ${env.JOB_NAME}",
-            body: "Build #${env.BUILD_NUMBER} failed. Check: ${env.BUILD_URL}"
-        }
+    echo 'Tests failed!'
+    mail to: 'tahmidulslash@gmail.com',
+         subject: "❌ Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+         body: """
+Hi,
+
+Build failed! Details below:
+
+Job Name   : ${env.JOB_NAME}
+Build No   : ${env.BUILD_NUMBER}
+Branch     : ${env.GIT_BRANCH}
+Build URL  : ${env.BUILD_URL}
+
+Please check the logs and fix the issue.
+
+- Jenkins
+         """
+}
     }
 }
