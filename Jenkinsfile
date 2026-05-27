@@ -37,6 +37,9 @@ pipeline {
         }
         failure {
             echo 'Tests failed!'
+            mail to: 'tahmidulslash@gmail.com',
+            subject: "Build Failed: ${env.JOB_NAME}",
+            body: "Build #${env.BUILD_NUMBER} failed. Check: ${env.BUILD_URL}"
         }
     }
 }
